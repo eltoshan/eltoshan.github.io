@@ -2,7 +2,7 @@
 layout: post
 title: "Multi-Armed Bandit for Risk Revenue"
 tags: [multi-armed bandit, machine learning, bayesian methods]
-date: 2014-10-28T10:44:53-04:00
+date: 2014-10-28
 ---
 
 This is an exercise to demonstrate the application of multi-armed bandit algorithm for maximizing risk revenue. Specifically, given finite resources and several potential missing CC's to go after, we want to find a process for allocating our chart reviews so that it maximizes the overall boost to risk scores.
