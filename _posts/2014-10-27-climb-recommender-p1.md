@@ -11,6 +11,7 @@ Content and product recommenders are all the rage currently. Services such as Ne
 For my personal curiosities, I've decided to use ratings from the popular rock climbing site [The Mountain Project](http://www.mountainproject.com). The Mountain Project contains millions of ratings for tens of thousands of climbs from all over the world, but there isn't a nice API for accessing the data.  What we will have to do is to crawl the climbing areas and sub-areas to collect the ratings data. Fortunately, [Scrapy](http://scrapy.org/) makes it quite easy for us to implement a crawler.  So we're going to create a Scrapy crawler that follows the links and parses the xpath values of interest.
 
 First thing is to start a new Scrapy project:  
+
 ```
 $ scrapy startproject MPspider
 ```
@@ -18,7 +19,7 @@ $ scrapy startproject MPspider
 The we need to modify the ```items.py``` file to capture the fields we want:
 
 
-{% highlight python %}
+{% highlight python linenos %}
  import scrapy.item
 
  class MpspiderItem(scrapy.Item):
@@ -34,7 +35,7 @@ The we need to modify the ```items.py``` file to capture the fields we want:
 
 Then we need to define our spider, and put it in the `spiders` directory.  The code will look something like this:
 
-{% highlight python %}
+{% highlight python linenos %}
 import scrapy
 from MPspider.items import MpspiderItem
 from re import search
@@ -53,7 +54,7 @@ class MySpider(scrapy.Spider):
 
 The code above parses the users and ratings for one route. What we need next is to configure the spider to crawl the entire tree of links to get every climb in an area. So the default `parse` methods is defined as such:
 
-{% highlight python %}
+{% highlight python linenos %}
 def parse(self, response):
 
 	# check if page is one with routes or subareas in the navigation
@@ -79,8 +80,11 @@ def parse(self, response):
 {% endhighlight %}
 
 Now that we have the items and spider defined, we can run the crawler:  
+
 ```
 $ scrapy crawl mountainproject -o ratings.csv
 ```
 
 We now have user/climb/rating items in CSV format!
+
+<br>
