@@ -15,17 +15,17 @@ On top of the classical Multi-Armed Bandit with binary outcomes, we are going to
 
 ### Basics of bandits
 
-From a Bayesian point of view, bandits with binary outcomes $k$ can be easily modeled using the beta-binomial predictive distribution. That is,
+From a Bayesian point of view, bandits with binary outcomes $x$ can be easily modeled using the beta-binomial predictive distribution. That is,
 
-$$ k|n,p \sim Binom(n,p) $$
+$$ x|n,p \sim Binom(n,p) $$
 
 where $ Binom(n,p) $ is the binomial distribution, and $p$ is a random variable with a beta distribution,  
 
 $$ \pi(p|\alpha,\beta) = Beta(\alpha,\beta) $$
 
-And the posteriod predictive distribution for the probability of success $p$, given $n$ trials and $k$ successes, becomes  
+And the posteriod predictive distribution for the probability of success $p$, given $n$ trials and $x$ successes, becomes  
 
-$$ p|n,k,\alpha,\beta \sim Beta(\alpha + k, \beta + n - k) $$
+$$ p|n,x,\alpha,\beta \sim Beta(\alpha + x, \beta + n - x) $$
 
 ### Modeling our bandits
 
