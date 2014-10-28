@@ -10,14 +10,12 @@ Content and product recommenders are all the rage currently. Services such as Ne
 
 For my personal curiosities, I've decided to use ratings from the popular rock climbing site [The Mountain Project](http://www.mountainproject.com). The Mountain Project contains millions of ratings for tens of thousands of climbs from all over the world, but there isn't a nice API for accessing the data.  What we will have to do is to crawl the climbing areas and sub-areas to collect the ratings data. Fortunately, [Scrapy](http://scrapy.org/) makes it quite easy for us to implement a crawler.  So we're going to create a Scrapy crawler that follows the links and parses the xpath values of interest.
 
-First thing is to start a new Scrapy project:
-
-
+First thing is to start a new Scrapy project:  
 ```
-scrapy startproject MPspider
+$ scrapy startproject MPspider
 ```
 
-The we need to modify the `items.py` file to capture the fields we want:
+The we need to modify the ```items.py``` file to capture the fields we want:
 
 
 {% highlight python %}
@@ -47,12 +45,42 @@ class MySpider(scrapy.Spider):
 	start_urls = ["page_to_start_crawling"]
 
 	def parse_ratings(self, response):
-		
 		users = response.xpath("xpath_to_users_and_ratings")
-
 		for user in users:
-
 			# get item attributes with xpath
-			
 			yield item
 {% endhighlight %}
+
+The code above parses the users and ratings for one route. What we need next is to configure the spider to crawl the entire tree of links to get every climb in an area. So the default `parse` methods is defined as such:
+
+{% highlight python %}
+def parse(self, response):
+
+	# check if page is one with routes or subareas in the navigation
+	isLeaf = response.xpath("count(//*[@id='leftNavRoutes'])").extract()[0]
+	isLeaf = int(float(isLeaf))
+
+	if isLeaf == 0:
+		areas = response.xpath("path_to_list_of_areas")
+		for area in areas:
+			# parse link to get ID of sub-area
+		for area in subareas:
+			# use area ID to generate new crawler request
+			yield newArea
+
+	if isLeaf != 0:
+		routes = response.xpath("path_to_routes")
+		# scrap page to get links to routes
+		for route in routes:
+			# parse climbID
+		for i in xrange(len(climbIDs)):
+			# use climb ID to generate new crawler request
+				yield newRoute
+{% endhighlight %}
+
+Now that we have the items and spider defined, we can run the crawler:  
+```
+$ scrapy crawl mountainproject -o ratings.csv
+```
+
+We now have user/climb/rating items in CSV format!
