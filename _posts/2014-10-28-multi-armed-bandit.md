@@ -17,7 +17,7 @@ On top of the classical Multi-Armed Bandit with binary outcomes, we are going to
 
 From a Bayesian point of view, bandits with binary outcomes $k$ can be easily modeled using the beta-binomial predictive distribution. That is, if  
 
-$$ k|n,p \sim Binom(n,p) $$
+\$\$ k|n,p \sim Binom(n,p) $$
 
 where $ Binom(n,p) $ is the binomial distribution, and $p$ is a random variable with a beta distribution,
 '''
