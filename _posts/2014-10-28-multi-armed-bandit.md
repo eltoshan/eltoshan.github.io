@@ -20,9 +20,11 @@ From a Bayesian point of view, bandits with binary outcomes $k$ can be easily mo
 $$ k|n,p \sim Binom(n,p) $$
 
 where $ Binom(n,p) $ is the binomial distribution, and $p$ is a random variable with a beta distribution,  
+
 $$ \pi(p|\alpha,\beta) = Beta(\alpha,\beta) $$
 
 And the posteriod predictive distribution for the probability of success $p$, given $n$ trials and $k$ successes, is  
+
 $$ p|n,k,\alpha,\beta \sim Beta(\alpha + k, \beta + n - k) $$
 
 ### Modeling our bandits
