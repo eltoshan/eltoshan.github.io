@@ -196,8 +196,5 @@ plt.legend(loc="upper left");
 
 Reward payoffs for chart reviews often is not constant, due to comorbidities in conditions we may find multiple missing conditions on one chart. An approach to this problem is to apply a function on the reward functions based on the correlation of comorbidities. This of course introduces a calculation complexity where the posterior predictive distribution may not be able to be solved analytically.
 
-<br>
-
-**Adapted from Probabilistic Programming and Bayesian Methods for Hackers by Cam Davidson Pilon**
 
 <br>
