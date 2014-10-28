@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Multi-Armed Bandit With Assymetrical Rewards"
+title: "Multi-Armed Bandit for Risk Revenue"
 tags: [multi-armed bandit, machine learning, bayesian methods]
 date: 2014-10-28T10:44:53-04:00
 ---
