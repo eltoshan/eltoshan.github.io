@@ -16,21 +16,21 @@ The intuition behind collaborative filtering is that similar users prefer simila
 
 The goal is then to minimize the error of the predicted ratings from the factored matrices compared to the actual ratings:  
 
-$$ \arg \min_{x*, y*}  \sum\limits_{u,i} w_{ui}(r_{ui} - x_u^Ty_i)^2 + \lambda\left(\sum\limits_{u} \|x_u\|^2 + \sum\limits_{i} \|y_i\|^2\right) $$
+$$ \arg \min_{x*, y*}  \sum\limits_{u,i} w_{ui}(r_{ui} - x_u^Ty_i)^2 + \lambda\left(n_u\sum\limits_{u} \|x_u\|^2 + n_i\sum\limits_{i} \|y_i\|^2\right) $$
 
-Where $w_{ui}$ is an indicator of whether the user rated the item.
+Where $w_{ui}$ is an indicator of whether the user rated the item; $n_u$ is the number of items the user rated; $n_i$ is the number of users who rated a specific item.
 
 One approach is to simply solve this using gradient descent, but to scale to a fast parallel algorithm we can use the Alternating Least Square (ALS) method, where we alternately minimize $X$ and $Y$ over many iterations until the error converges to a stable value. The especially nice property of ALS is that each iteration of $X$ and $Y$ can be solved analytically.
 
 By taking the loss function above and setting the derivative with respect to $X$ to $0$, we obtain the solution for $X$:  
 
-$$ X_u = (Y^TW^uY + \lambda I)^{-1}Y^TW^ur_u $$
+$$ X_u = (Y^TW^uY + n_u\lambda I)^{-1}Y^TW^ur_u $$
 
 Where $W^u$ is a diagonal matrix where the diagonal entries are $w_{ui}$.
 
 Repeating the same for $Y$ we get:
 
-$$ Y_i = (X^TW^iX + \lambda I)^{-1}X^TW^ir_i $$
+$$ Y_i = (X^TW^iX + n_i\lambda I)^{-1}X^TW^ir_i $$
 
 With that laid out, we can construct our ALS algorithm.
 
