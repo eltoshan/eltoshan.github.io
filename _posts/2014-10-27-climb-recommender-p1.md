@@ -87,4 +87,6 @@ $ scrapy crawl mountainproject -o ratings.csv
 
 We now have user/climb/rating items in CSV format!
 
+Continued in [Part 2]({% post_url 2014-10-31-climb-recommender-p2 %}).
+
 <br>
