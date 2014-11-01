@@ -90,6 +90,6 @@ class factoredModel():
         return Qhat, RMSE
 {% endhighlight %}
 
-Full Python script available on [GitHub].
+Full Python script available on [GitHub](https://github.com/eltoshan/CF/blob/master/mf.py).
 
 <br>
