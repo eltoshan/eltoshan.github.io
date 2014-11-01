@@ -34,4 +34,62 @@ $$ Y_i = (X^TW^iX + \lambda I)^{-1}X^TW^ir_i $$
 
 With that laid out, we can construct our ALS algorithm.
 
+{% highlight python linenos %}
+import numpy as np
+import pandas as pd
+
+class ALSModel():
+
+    def __init__(self, ratings, num_factors=20, num_iterations=10, reg_param=0.30):
+        self.Q = ratings
+        self.num_factors = num_factors
+        self.num_iterations = num_iterations
+        self.reg_param = reg_param
+
+    def train_model(self):
+        m = self.Q.shape[0]
+        n = self.Q.shape[1]
+        nRatings = np.count_nonzero(self.Q)
+
+        W = self.Q>0.5
+        W[W == True] = 1
+        W[W == False] = 0
+        W = W.astype(np.float64, copy=False)
+        Nu = np.sum(W, axis=1)
+        Ni = np.sum(W, axis=0)
+
+        X = np.random.rand(m, self.num_factors) 
+        Y = np.random.rand(self.num_factors, n)
+        lambda_eye = self.reg_param * np.eye(self.num_factors)
+
+        for ii in range(self.num_iterations):
+            for u, Wu in enumerate(W):
+                X[u] = np.linalg.solve(np.dot(Y, np.dot(np.diag(Wu), Y.T)) + max(1, Nu[u]) * lambda_eye,
+                                       np.dot(Y, np.dot(np.diag(Wu), self.Q[u].T))).T
+            for i, Wi in enumerate(W.T):
+                Y[:,i] = np.linalg.solve(np.dot(X.T, np.dot(np.diag(Wi), X)) + max(1, Ni[i]) * lambda_eye,
+                                         np.dot(X.T, np.dot(np.diag(Wi), self.Q[:, i])))
+            print "%dth iteration is completed" % (ii+1)
+        return factoredModel(X, Y)
+
+class factoredModel():
+
+    def __init__(self, userMat, itemMat):
+        self.X = userMat
+        self.Y = itemMat
+
+    def computeRMSE(self, ratings):
+        Q = ratings
+        nRatings = np.count_nonzero(ratings)
+        W = ratings>0.5
+        W[W == True] = 1
+        W[W == False] = 0
+        W = W.astype(np.float64, copy=False)
+        Qhat = W * np.dot(self.X, self.Y)
+        RMSE = np.sqrt(np.sum((W * (Q - Qhat)**2)) / nRatings)
+        return Qhat, RMSE
+{% endhighlight %}
+
+Full Python script available on [GitHub].
+
 <br>
