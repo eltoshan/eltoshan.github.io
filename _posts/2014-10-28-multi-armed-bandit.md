@@ -33,6 +33,15 @@ And the posteriod predictive distribution for the probability of success $p$, gi
 $ p|n,k,\alpha,\beta \sim Beta(\alpha + k, \beta + n - k) $
 </p>
 
+
+The algorithm will then become:  
+
+1. initialize the flat uninformative beta prior on the probability of success with $\alpha, \beta = 1$  
+2. draw from each bandit's prior as the probability of success  
+3. multiply the probabilities by the reward for each bandit, and choose the arm with the maximum value  
+4. update the posterior-predictive distribution of the chosen bandit arm with the outcome of success/failure  
+5. repeat steps 2 thru 4  
+
 ### Modeling our bandits
 
 So we can exploit the properties above and model our bandits using the beta-binomial preditive distribution. Python implementation below:  
